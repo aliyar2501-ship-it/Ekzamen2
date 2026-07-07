@@ -1,0 +1,49 @@
+{% extends 'board/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="mb-3">
+            <a href="{% url 'ad_list' %}" class="btn btn-sm btn-secondary"><i class="fa-solid fa-arrow-left"></i> Отмена</a>
+        </div>
+
+        <div class="card shadow border-0 rounded-3">
+            <div class="card-header bg-dark text-white p-3">
+                <h4 class="mb-0 fw-bold">
+                    {% if title %}
+                        <i class="fa-solid fa-pen-to-square"></i> {{ title }}
+                    {% else %}
+                        <i class="fa-solid fa-plus"></i> Новое объявление
+                    {% endif %}
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Пожалуйста, заполните форму корректно.
+                    </div>
+                    {% endif %}
+
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label fw-bold text-muted">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+
+                    <div class="text-end border-top pt-3">
+                        <button type="submit" class="btn btn-primary px-4 fw-bold">
+                            <i class="fa-solid fa-check"></i> Сохранить и опубликовать
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

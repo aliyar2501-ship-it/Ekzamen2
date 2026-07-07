@@ -1,0 +1,45 @@
+{% extends 'board/base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow border-0 rounded-4 mt-4">
+            <div class="card-body p-5">
+                <h3 class="card-title text-center fw-bold mb-4">
+                    <i class="fa-solid fa-user-plus text-success me-2"></i> Создать аккаунт
+                </h3>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    {% if form.errors %}
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fa-solid fa-circle-exclamation"></i> Ошибка при регистрации. Проверьте введенные данные.
+                    </div>
+                    {% endif %}
+
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label for="{{ field.id_for_label }}" class="form-label fw-bold text-muted">
+                            {{ field.label }}
+                        </label>
+                        <input type="{{ field.field.widget.input_type }}" name="{{ field.html_name }}" id="{{ field.id_for_label }}" class="form-control rounded-3" required>
+                        {% if field.help_text %}
+                        <div class="form-text text-muted" style="font-size: 0.75rem;">{{ field.help_text|safe }}</div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+
+                    <button type="submit" class="btn btn-success w-100 py-2 rounded-3 fw-bold mt-3">
+                        Зарегистрироваться <i class="fa-solid fa-user-check ms-1"></i>
+                    </button>
+                </form>
+
+                <div class="text-center mt-4">
+                    <p class="text-muted mb-0">Уже есть аккаунт? <a href="{% url 'login' %}" class="text-decoration-none fw-bold">Войти</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
